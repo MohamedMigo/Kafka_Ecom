@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime, timezone
 from kafka import KafkaProducer
 
-# 1. إعداد الـ Producer ليتصل بكافكا على البورت الخارجي 29092
+
 producer = KafkaProducer(
     bootstrap_servers=['localhost:29092'], 
     key_serializer=lambda k: str(k).encode('utf-8') if k is not None else b'',
@@ -18,7 +18,7 @@ valid_events = ['page_view', 'add_to_cart', 'purchase']
 invalid_events = ['click', 'view', 'pay']
 
 def generate_event():
-    # نسبة 25% إن البيانات تطلع فيها مشكلة
+    
     is_faulty = random.random() < 0.25
     
     customer_id = f"CUST_{random.randint(1, 5)}"
@@ -34,7 +34,7 @@ def generate_event():
         elif invalid_field == 'event_type':
             event_type = random.choice(invalid_events)
         elif invalid_field == 'amount':
-            amount = round(random.uniform(-500.0, -10.0), 2) # سعر بالسالب بالخطأ
+            amount = round(random.uniform(-500.0, -10.0), 2) 
         elif invalid_field == 'currency':
             currency = None
 
@@ -44,7 +44,7 @@ def generate_event():
         "event_type": event_type,
         "amount": amount,
         "currency": currency,
-        "event_timestamp": datetime.now(timezone.utc).isoformat(), # تم تحديث دالة الوقت
+        "event_timestamp": datetime.now(timezone.utc).isoformat(), 
         "is_valid": not is_faulty,
         "invalid_field": invalid_field
     }
